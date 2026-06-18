@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>後台｜SCA 課後練習時段</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./js/admin.mjs"></script>
+  </head>
+  <body class="admin-page">
+    <header class="site-hero admin-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Teacher admin</p>
+        <h1>時段管理後台</h1>
+        <p class="hero-note">第一版僅供本機測試。資料會存在目前這個瀏覽器，不會連到付費服務。</p>
+      </div>
+      <a class="hero-card admin-home-link" href="./index.html">
+        <span>學生端</span>
+        <strong>查看週表</strong>
+        <small>更新後可回前台確認</small>
+      </a>
+    </header>
+
+    <main>
+      <section id="auth-panel" class="admin-panel">
+        <div>
+          <p class="eyebrow">Admin access</p>
+          <h2 id="auth-title">建立本機管理密碼</h2>
+          <p class="helper-text">這組密碼只存在此瀏覽器，用來保護本機測試後台。</p>
+        </div>
+        <form id="auth-form" class="admin-form">
+          <label>
+            管理密碼
+            <input id="admin-password" type="password" autocomplete="current-password" required minlength="6">
+          </label>
+          <button type="submit">進入後台</button>
+          <p id="auth-message" class="form-message" role="status"></p>
+        </form>
+      </section>
+
+      <section id="admin-app" class="admin-layout" hidden>
+        <section class="admin-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Add slot</p>
+              <h2>新增練習時段</h2>
+            </div>
+          </div>
+
+          <form id="slot-form" class="admin-form slot-form">
+            <div class="form-grid">
+              <label>
+                日期
+                <input name="date" type="date" required>
+              </label>
+              <label>
+                開始時間
+                <input name="startTime" type="time" required>
+              </label>
+              <label>
+                結束時間
+                <input name="endTime" type="time" required>
+              </label>
+            </div>
+
+            <div class="group-editor">
+              <h3>義式組</h3>
+              <label>
+                狀態
+                <select name="espressoStatus">
+                  <option value="open">顯示可詢問名額</option>
+                  <option value="hidden">開放但不顯示名額</option>
+                  <option value="closed">不開放</option>
+                </select>
+              </label>
+              <label>
+                可詢問名額
+                <input name="espressoCapacity" type="number" min="0" value="0">
+              </label>
+            </div>
+
+            <div class="group-editor">
+              <h3>感官手沖組</h3>
+              <label>
+                狀態
+                <select name="brewStatus">
+                  <option value="open">顯示可詢問名額</option>
+                  <option value="hidden">開放但不顯示名額</option>
+                  <option value="closed">不開放</option>
+                </select>
+              </label>
+              <label>
+                可詢問名額
+                <input name="brewCapacity" type="number" min="0" value="0">
+              </label>
+            </div>
+
+            <button type="submit">新增時段</button>
+            <p id="slot-message" class="form-message" role="status"></p>
+          </form>
+        </section>
+
+        <section class="admin-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Manage slots</p>
+              <h2>已建立時段</h2>
+            </div>
+            <button id="copy-week-button" type="button">複製本週到下一週</button>
+          </div>
+          <div id="slot-list" class="slot-list"></div>
+          <p id="list-message" class="form-message" role="status"></p>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
