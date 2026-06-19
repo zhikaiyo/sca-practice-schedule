@@ -177,6 +177,23 @@ main {
   line-height: 1.15;
 }
 
+.schedule-title-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.schedule-title-row p {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
 .legend {
   display: flex;
   align-items: center;
@@ -531,6 +548,10 @@ label {
     gap: 12px;
   }
 
+  .schedule-title-row p {
+    font-size: 11px;
+  }
+
   .legend {
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -589,6 +610,14 @@ label {
 }
 
 @media (max-width: 360px) {
+  .schedule-title-row {
+    gap: 8px;
+  }
+
+  .schedule-title-row p {
+    font-size: 9px;
+  }
+
   .group-split {
     grid-template-columns: 1fr;
   }
