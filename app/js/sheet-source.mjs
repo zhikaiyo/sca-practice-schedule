@@ -74,9 +74,10 @@ export function rowsToSlots(rows) {
   const headers = rows[0];
   return rows.slice(1).map((row, index) => {
     const record = Object.fromEntries(headers.map((header, cellIndex) => [header, row[cellIndex] || ""]));
+    const date = normalizeSheetDate(record["日期"]);
     return {
-      id: `sheet-${record["日期"]}-${record["開始時間"]}-${index}`,
-      date: record["日期"],
+      id: `sheet-${date}-${record["開始時間"]}-${index}`,
+      date,
       startTime: record["開始時間"],
       endTime: record["結束時間"],
       espresso: createGroup(record["義式組狀態"], record["義式組名額"]),
@@ -110,6 +111,39 @@ function createGroup(statusText, capacityText) {
     capacity: Number(capacityText || 0),
     showCapacity: status === "open",
   };
+}
+
+function normalizeSheetDate(dateText) {
+  const normalized = String(dateText || "").trim();
+  const parts = normalized.split(/[/-]/).map((part) => part.trim());
+
+  if (parts.length === 2) {
+    const [month, day] = parts;
+    return formatDateParts(new Date().getFullYear(), month, day) || normalized;
+  }
+
+  if (parts.length === 3) {
+    const [year, month, day] = parts;
+    return formatDateParts(year, month, day) || normalized;
+  }
+
+  return normalized;
+}
+
+function formatDateParts(year, month, day) {
+  const yearNumber = Number(year);
+  const monthNumber = Number(month);
+  const dayNumber = Number(day);
+
+  if (!yearNumber || !monthNumber || !dayNumber || monthNumber > 12 || dayNumber > 31) {
+    return "";
+  }
+
+  return [
+    String(yearNumber).padStart(4, "0"),
+    String(monthNumber).padStart(2, "0"),
+    String(dayNumber).padStart(2, "0"),
+  ].join("-");
 }
 
 function normalizeStatus(statusText) {

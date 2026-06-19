@@ -140,6 +140,20 @@ test("rowsToSlots converts Google Sheet rows into schedule slots", () => {
   assert.equal(slots[1].brew.capacity, 2);
 });
 
+test("rowsToSlots expands short Google Sheet dates to the current year", () => {
+  const csvText = [
+    "日期,開始時間,結束時間,義式組狀態,義式組名額,感官手沖組狀態,感官手沖組名額",
+    "6/19,10:00,12:00,顯示名額,3,顯示名額,2",
+    "2026/6/20,14:00,16:00,顯示名額,1,不開放,0",
+  ].join("\n");
+
+  const slots = rowsToSlots(parseCsv(csvText));
+  const currentYear = new Date().getFullYear();
+
+  assert.equal(slots[0].date, `${currentYear}-06-19`);
+  assert.equal(slots[1].date, "2026-06-20");
+});
+
 test("createSlotsSignature changes when visible sheet data changes", () => {
   const baseSlots = rowsToSlots(parseCsv([
     "日期,開始時間,結束時間,義式組狀態,義式組名額,感官手沖組狀態,感官手沖組名額",
