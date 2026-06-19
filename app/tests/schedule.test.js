@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   copyWeekToNextWeek,
+  getWeekDaysWithSlots,
   getWeekDays,
   getMondayOfWeek,
   getSlotsForWeek,
@@ -63,6 +64,19 @@ test("getWeekDays returns seven days from Monday to Sunday", () => {
     { date: "2026-06-26", weekday: "星期五" },
     { date: "2026-06-27", weekday: "星期六" },
     { date: "2026-06-28", weekday: "星期日" },
+  ]);
+});
+
+test("getWeekDaysWithSlots returns only dates that have available slots", () => {
+  const slots = [
+    { id: "slot-1", date: "2026-06-22", startTime: "10:00", endTime: "12:00" },
+    { id: "slot-2", date: "2026-06-25", startTime: "14:00", endTime: "16:00" },
+    { id: "next-week", date: "2026-06-29", startTime: "10:00", endTime: "12:00" },
+  ];
+
+  assert.deepEqual(getWeekDaysWithSlots(slots, "2026-06-24"), [
+    { date: "2026-06-22", weekday: "星期一" },
+    { date: "2026-06-25", weekday: "星期四" },
   ]);
 });
 

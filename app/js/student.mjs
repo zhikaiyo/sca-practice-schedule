@@ -1,7 +1,7 @@
 import { AUTO_REFRESH_INTERVAL_MS, GOOGLE_SHEET_CSV_URL } from "./config.mjs";
 import { createSlotsSignature, loadSlotsFromSheet } from "./sheet-source.mjs";
 import { sampleSlots } from "./storage.mjs";
-import { addDays, getMondayOfWeek, getSlotsForWeek, getWeekDays } from "./schedule.mjs";
+import { addDays, getMondayOfWeek, getSlotsForWeek, getWeekDays, getWeekDaysWithSlots } from "./schedule.mjs";
 
 const scheduleRoot = document.querySelector("#schedule-root");
 let currentSignature = "";
@@ -73,9 +73,10 @@ function renderLastUpdated(updatedAt) {
 }
 
 function renderWeek(label, startDate, slots) {
-  const days = getWeekDays(startDate);
+  const weekRangeDays = getWeekDays(startDate);
+  const days = getWeekDaysWithSlots(slots, startDate);
   const weekSlots = getSlotsForWeek(slots, startDate);
-  const endDate = days.at(-1).date;
+  const endDate = weekRangeDays.at(-1).date;
 
   return `
     <section class="week-section" aria-labelledby="week-${startDate}">
@@ -86,7 +87,7 @@ function renderWeek(label, startDate, slots) {
         </div>
       </div>
       <div class="week-list">
-        ${days.map((day) => renderDay(day, weekSlots)).join("")}
+        ${days.length > 0 ? days.map((day) => renderDay(day, weekSlots)).join("") : `<p class="helper-text">目前沒有可詢問時段。</p>`}
       </div>
     </section>
   `;

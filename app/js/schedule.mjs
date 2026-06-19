@@ -42,6 +42,11 @@ export function getWeekDays(dateText) {
   }));
 }
 
+export function getWeekDaysWithSlots(slots, dateText) {
+  const datesWithSlots = new Set(getSlotsForWeek(slots, dateText).map((slot) => slot.date));
+  return getWeekDays(dateText).filter((day) => datesWithSlots.has(day.date));
+}
+
 export function getSlotsForWeek(slots, dateText) {
   const weekDates = new Set(getWeekDays(dateText).map((day) => day.date));
   return slots
