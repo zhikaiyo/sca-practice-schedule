@@ -244,6 +244,17 @@ main {
   margin-bottom: 14px;
 }
 
+.week-heading > div {
+  display: inline-grid;
+  gap: 4px;
+  border: 1px solid rgba(176, 107, 69, 0.18);
+  border-left: 5px solid var(--copper);
+  border-radius: 8px;
+  padding: 10px 14px 12px;
+  background: rgba(255, 250, 242, 0.86);
+  box-shadow: 0 10px 24px rgba(65, 45, 32, 0.07);
+}
+
 .week-heading h3 {
   margin-top: 4px;
   color: var(--coffee-deep);
@@ -549,7 +560,7 @@ label {
   }
 
   .schedule-title-row p {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .legend {
@@ -615,9 +626,17 @@ label {
   }
 
   .schedule-title-row p {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 340px) {
+  .schedule-title-row p {
     font-size: 9px;
   }
+}
 
+@media (max-width: 360px) {
   .group-split {
     grid-template-columns: 1fr;
   }
